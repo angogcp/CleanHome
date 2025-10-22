@@ -119,6 +119,11 @@ app.put('/bookings/:id', (req, res) => {
 // Serve static files from the root directory
 app.use(express.static(path.join(__dirname, '.'), { etag: false, lastModified: false, maxAge: 0 }));
 
+// Serve index.html for the root path
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
