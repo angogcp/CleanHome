@@ -5,5 +5,8 @@
     { "src": "*.html", "use": "@vercel/static" },
     { "src": "resources/**", "use": "@vercel/static" }
   ],
-  "cleanUrls": true
+  "cleanUrls": true,
+  "env": {
+    "NEON_DATABASE_URL": "@neon_database_url"
+  }
 }

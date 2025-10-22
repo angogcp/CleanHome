@@ -1,13 +1,5 @@
 const storage = require('./_lib/storage');
-const { hasKv } = require('./_lib/data');
-
-let kvClient = null;
-try {
-  const { kv } = require('@vercel/kv');
-  kvClient = kv;
-} catch (_) {
-  kvClient = null;
-}
+const { hasNeon, initDb, registerUser, addBooking } = require('./_lib/data');
 
 function getToken(req) {
   const fromQuery = req.query && (req.query.token || req.query.auth);
@@ -31,47 +23,50 @@ module.exports = async (req, res) => {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    if (!hasKv() || !kvClient) {
+    if (!hasNeon()) {
       return res.status(200).json({
-        message: 'KV not configured. Running in local JSON mode, nothing to seed.',
+        message: 'Neon database not configured. Running in local JSON mode, nothing to seed.',
         usersSeeded: 0,
         bookingsSeeded: 0,
       });
     }
 
-    const existingUsers = await kvClient.hgetall('users');
-    const existingBookings = await kvClient.hgetall('bookings');
+    // Initialize database tables
+    const initialized = await initDb();
+    if (!initialized) {
+      return res.status(500).json({ error: 'Failed to initialize database tables' });
+    }
 
     const users = storage.readData('users.json');
     const bookings = storage.readData('bookings.json');
 
-    const usersToSet = {};
-    (users || []).forEach(u => {
-      const key = u.email;
-      if (!existingUsers || !existingUsers[key]) {
-        usersToSet[key] = u;
-      }
-    });
+    let usersSeeded = 0;
+    let bookingsSeeded = 0;
 
-    const bookingsToSet = {};
-    (bookings || []).forEach(b => {
-      const key = b.id;
-      if (!existingBookings || !existingBookings[key]) {
-        bookingsToSet[key] = b;
+    // Seed users
+    for (const user of users) {
+      try {
+        await registerUser(user);
+        usersSeeded++;
+      } catch (error) {
+        console.error(`Failed to seed user ${user.email}:`, error);
       }
-    });
-
-    if (Object.keys(usersToSet).length > 0) {
-      await kvClient.hset('users', usersToSet);
     }
-    if (Object.keys(bookingsToSet).length > 0) {
-      await kvClient.hset('bookings', bookingsToSet);
+
+    // Seed bookings
+    for (const booking of bookings) {
+      try {
+        await addBooking(booking);
+        bookingsSeeded++;
+      } catch (error) {
+        console.error(`Failed to seed booking ${booking.id}:`, error);
+      }
     }
 
     return res.status(200).json({
       message: 'Seed complete',
-      usersSeeded: Object.keys(usersToSet).length,
-      bookingsSeeded: Object.keys(bookingsToSet).length,
+      usersSeeded,
+      bookingsSeeded,
     });
   } catch (err) {
     console.error('Seed error', err);
