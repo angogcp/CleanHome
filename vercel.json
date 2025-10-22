@@ -10,6 +10,6 @@
     { "src": "/(.*)", "dest": "/server.js" }
   ],
   "env": {
-    "NEON_DATABASE_URL": "@neon_database_url"
+    "NEON_DATABASE_URL": "postgresql://neondb_owner:npg_8sMKa9JgVWvZ@ep-autumn-term-a1cx10zw-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
   }
 }
