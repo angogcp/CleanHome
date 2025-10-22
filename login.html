@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - CleanHome Ipoh</title>
+    <meta name="description" content="Login admin untuk sistem pengurusan tempahan CleanHome Ipoh">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --primary-teal: #14B8A6;
+            --accent-orange: #FB923C;
+            --success-green: #22C55E;
+            --bg-warm: #FAFAF9;
+            --text-slate: #1E293B;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-teal), var(--accent-orange));
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+        
+        .language-selector select {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.875rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .font-display {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .form-input {
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary-teal);
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+            outline: none;
+        }
+        
+        .form-input.error {
+            border-color: #EF4444;
+        }
+        
+        .login-btn {
+            background: linear-gradient(135deg, var(--primary-teal), var(--accent-orange));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(20, 184, 166, 0.3);
+        }
+        
+        .login-btn:active {
+            transform: translateY(0);
+        }
+        
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .checkbox-input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-teal);
+        }
+        
+        .forgot-link {
+            color: var(--primary-teal);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .forgot-link:hover {
+            color: #0D9488;
+        }
+        
+        .logo-container {
+            margin-bottom: 32px;
+        }
+        
+        .error-message {
+            color: #EF4444;
+            font-size: 0.875rem;
+            margin-top: 8px;
+            display: none;
+        }
+        
+        .success-message {
+            color: var(--success-green);
+            font-size: 0.875rem;
+            margin-top: 8px;
+            display: none;
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <select id="languageToggle">
+            <option value="bm">🇲🇾 BM</option>
+            <option value="cn">🇨🇳 中文</option>
+            <option value="en">🇬🇧 EN</option>
+        </select>
+    </div>
+    <div class="login-card">
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="resources/logo.png" alt="CleanHome Logo" class="w-16 h-16 mx-auto mb-4">
+            <h1 class="font-display font-bold text-2xl text-slate-800">CleanHome Admin</h1>
+            <p class="text-slate-600 mt-2" data-translate="loginTitle">Sistem Pengurusan Tempahan</p>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="space-y-6" style="display: block;">
+            <!-- Email Input -->
+            <div>
+                <label for="email" class="block text-left font-semibold text-slate-800 mb-2" data-translate="email">Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    class="form-input" 
+                    placeholder="admin@cleanhome.ipoh"
+                    required
+                    autocomplete="email"
+                >
+                <div class="error-message" id="emailError" data-translate="emailError">Sila masukkan email yang sah</div>
+            </div>
+
+            <!-- Password Input -->
+            <div>
+                <label for="password" class="block text-left font-semibold text-slate-800 mb-2" data-translate="password">Kata Laluan</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    class="form-input" 
+                    placeholder="••••••••"
+                    required
+                    autocomplete="current-password"
+                >
+                <div class="error-message" id="passwordError" data-translate="passwordError">Kata laluan diperlukan</div>
+            </div>
+
+            <!-- Remember Me -->
+            <div class="flex items-center justify-between">
+                <label class="flex items-center cursor-pointer">
+                    <input type="checkbox" id="rememberMe" name="rememberMe" class="checkbox-input mr-2">
+                    <span class="text-slate-700" data-translate="rememberMe">Ingat saya</span>
+                </label>
+                
+                <a href="#" class="forgot-link" onclick="showForgotPassword()" data-translate="forgotPassword">Lupa kata laluan?</a>
+            </div>
+
+            <!-- Register Link -->
+            <div class="mt-4">
+                <a href="#" class="forgot-link" onclick="toggleForms()" data-translate="register">Daftar Akaun Baru</a>
+            </div>
+
+            <!-- Login Button -->
+            <button type="submit" class="login-btn" id="loginButton">
+                <span id="buttonText" data-translate="loginButton">Log Masuk</span>
+                <div class="loading-spinner" id="loadingSpinner"></div>
+            </button>
+
+            <!-- Success/Error Messages -->
+            <div class="success-message" id="successMessage" data-translate="loginSuccess">Log masuk berjaya! Mengalihkan...</div>
+            <div class="error-message" id="loginError" data-translate="loginError">Email atau kata laluan tidak sah</div>
+        </form>
+
+        <!-- Register Form -->
+        <form id="registerForm" class="space-y-6" style="display: none;">
+            <!-- Email Input -->
+            <div>
+                <label for="regEmail" class="block text-left font-semibold text-slate-800 mb-2" data-translate="email">Email</label>
+                <input 
+                    type="email" 
+                    id="regEmail" 
+                    name="regEmail" 
+                    class="form-input" 
+                    placeholder="admin@cleanhome.ipoh"
+                    required
+                    autocomplete="email"
+                >
+                <div class="error-message" id="regEmailError" data-translate="emailError">Sila masukkan email yang sah</div>
+            </div>
+
+            <!-- Password Input -->
+            <div>
+                <label for="regPassword" class="block text-left font-semibold text-slate-800 mb-2" data-translate="password">Kata Laluan</label>
+                <input 
+                    type="password" 
+                    id="regPassword" 
+                    name="regPassword" 
+                    class="form-input" 
+                    placeholder="••••••••"
+                    required
+                    autocomplete="new-password"
+                >
+                <div class="error-message" id="regPasswordError" data-translate="passwordError">Kata laluan diperlukan</div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div>
+                <label for="confirmPassword" class="block text-left font-semibold text-slate-800 mb-2" data-translate="confirmPassword">Sahkan Kata Laluan</label>
+                <input 
+                    type="password" 
+                    id="confirmPassword" 
+                    name="confirmPassword" 
+                    class="form-input" 
+                    placeholder="••••••••"
+                    required
+                    autocomplete="new-password"
+                >
+                <div class="error-message" id="confirmError" data-translate="confirmError">Kata laluan tidak sepadan</div>
+            </div>
+
+            <!-- Register Button -->
+            <button type="submit" class="login-btn" id="registerButton">
+                <span id="regButtonText" data-translate="registerButton">Daftar</span>
+                <div class="loading-spinner" id="regLoadingSpinner"></div>
+            </button>
+
+            <!-- Back to Login Link -->
+            <div class="mt-4">
+                <a href="#" class="forgot-link" onclick="toggleForms()" data-translate="backToLogin">Kembali ke Log Masuk</a>
+            </div>
+
+            <!-- Success/Error Messages -->
+            <div class="success-message" id="regSuccessMessage" data-translate="registerSuccess">Pendaftaran berjaya! Anda boleh log masuk sekarang.</div>
+            <div class="error-message" id="regError" data-translate="registerError">Pendaftaran gagal. Email mungkin sudah wujud.</div>
+        </form>
+
+        <!-- Footer -->
+        <div class="mt-8 pt-6 border-t border-slate-200">
+            <p class="text-sm text-slate-500">
+                © 2024 CleanHome Ipoh. Sistem pengurusan tempahan.
+            </p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    <script>
+        // Only one DOMContentLoaded event listener at the end of the file
+        
+        function initializeLoginPage() {
+            // Check if user is already logged in
+            const isLoggedIn = localStorage.getItem('adminLoggedIn');
+            if (isLoggedIn === 'true') {
+                window.location.href = 'admin.html';
+                return;
+            }
+
+            // Load saved email if "Remember Me" was checked
+            const savedEmail = localStorage.getItem('savedEmail');
+            if (savedEmail) {
+                document.getElementById('email').value = savedEmail;
+                document.getElementById('rememberMe').checked = true;
+            }
+        }
+
+        function setupLoginEventListeners() {
+            const loginForm = document.getElementById('loginForm');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+
+            // Form submission
+            loginForm.addEventListener('submit', handleLogin);
+
+            // Real-time validation
+            emailInput.addEventListener('input', validateEmail);
+            emailInput.addEventListener('blur', validateEmail);
+            
+            passwordInput.addEventListener('input', validatePassword);
+            passwordInput.addEventListener('blur', validatePassword);
+
+            // Enter key support
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleLogin(e);
+                }
+            });
+        }
+
+        function validateEmail() {
+            const emailInput = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailInput.value.trim()) {
+                showFieldError(emailInput, emailError, 'Email diperlukan');
+                return false;
+            } else if (!emailRegex.test(emailInput.value)) {
+                showFieldError(emailInput, emailError, 'Sila masukkan email yang sah');
+                return false;
+            } else {
+                clearFieldError(emailInput, emailError);
+                return true;
+            }
+        }
+
+        function validatePassword() {
+            const passwordInput = document.getElementById('password');
+            const passwordError = document.getElementById('passwordError');
+
+            if (!passwordInput.value.trim()) {
+                showFieldError(passwordInput, passwordError, 'Kata laluan diperlukan');
+                return false;
+            } else if (passwordInput.value.length < 6) {
+                showFieldError(passwordInput, passwordError, 'Kata laluan mesti sekurang-kurangnya 6 aksara');
+                return false;
+            } else {
+                clearFieldError(passwordInput, passwordError);
+                return true;
+            }
+        }
+
+        function showFieldError(input, errorElement, message) {
+            input.classList.add('error');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        function clearFieldError(input, errorElement) {
+            input.classList.remove('error');
+            errorElement.style.display = 'none';
+        }
+
+        // Update handleLogin to use API
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            if (!validateEmail() || !validatePassword()) {
+                return;
+            }
+            
+            showLoadingState(true);
+            
+            // Use API for login
+            fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoadingState(false);
+                if (data.error) {
+                    loginFailed();
+                } else {
+                    loginSuccess({ email, role: data.role }, rememberMe);
+                }
+            })
+            .catch(error => {
+                showLoadingState(false);
+                loginFailed();
+            });
+        }
+
+        function authenticateUser(email, password) {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            return users.find(u => u.email === email && u.password === password) || null;
+        }
+
+        function showLoadingState(isLoading) {
+            const loginButton = document.getElementById('loginButton');
+            const buttonText = document.getElementById('buttonText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+
+            if (isLoading) {
+                loginButton.disabled = true;
+                buttonText.style.display = 'none';
+                loadingSpinner.style.display = 'block';
+            } else {
+                loginButton.disabled = false;
+                buttonText.style.display = 'block';
+                loadingSpinner.style.display = 'none';
+            }
+        }
+
+        function loginSuccess(user, rememberMe) {
+            // Hide loading state
+            showLoadingState(false);
+
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+
+            // Save login state
+            localStorage.setItem('loggedIn', 'true');
+            localStorage.setItem('userEmail', user.email);
+            localStorage.setItem('userRole', user.role);
+
+            // Handle remember me
+            if (rememberMe) {
+                localStorage.setItem('savedEmail', user.email);
+            } else {
+                localStorage.removeItem('savedEmail');
+            }
+
+            // Animate success
+            anime({
+                targets: successMessage,
+                scale: [1, 1.05, 1],
+                duration: 600,
+                easing: 'easeInOutQuad'
+            });
+
+            // Redirect based on role
+            const redirectUrl = user.role === 'admin' ? 'admin.html' : 'user.html';
+            setTimeout(() => {
+                window.location.href = redirectUrl;
+            }, 1000);
+        }
+
+        function loginFailed() {
+            // Hide loading state
+            showLoadingState(false);
+
+            // Show error message
+            const loginError = document.getElementById('loginError');
+            loginError.style.display = 'block';
+
+            // Animate error
+            anime({
+                targets: loginError,
+                translateX: [-10, 10, -5, 5, 0],
+                duration: 400,
+                easing: 'easeInOutQuad'
+            });
+
+            // Clear password field
+            document.getElementById('password').value = '';
+            document.getElementById('password').focus();
+
+            // Hide error after 3 seconds
+            setTimeout(() => {
+                loginError.style.display = 'none';
+            }, 3000);
+        }
+
+        function showForgotPassword() {
+            // Simple alert for demo - in production, this would open a modal
+            alert('Fungsi lupa kata laluan akan dihantar ke email admin. Sila hubungi support untuk bantuan.');
+        }
+
+        // Add some entrance animations
+        anime.timeline({
+            easing: 'easeOutExpo',
+            duration: 800
+        })
+        .add({
+            targets: '.login-card',
+            opacity: [0, 1],
+            translateY: [50, 0],
+            delay: 200
+        })
+
+        // Toggle between login and register forms
+        function toggleForms() {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+            } else {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+            }
+        }
+
+        // Setup register form listeners
+        function setupRegisterEventListeners() {
+            const registerForm = document.getElementById('registerForm');
+            if (registerForm) {
+                registerForm.addEventListener('submit', handleRegister);
+                
+                // Add validation listeners
+                document.getElementById('regEmail').addEventListener('input', validateRegEmail);
+                document.getElementById('regEmail').addEventListener('blur', validateRegEmail);
+                
+                document.getElementById('regPassword').addEventListener('input', validateRegPassword);
+                document.getElementById('regPassword').addEventListener('blur', validateRegPassword);
+                
+                document.getElementById('confirmPassword').addEventListener('input', validateConfirmPassword);
+                document.getElementById('confirmPassword').addEventListener('blur', validateConfirmPassword);
+            }
+        }
+
+        // Validation functions for register
+        function validateRegEmail() {
+            const emailInput = document.getElementById('regEmail');
+            const emailError = document.getElementById('regEmailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailInput.value.trim()) {
+                showFieldError(emailInput, emailError, 'Email diperlukan');
+                return false;
+            } else if (!emailRegex.test(emailInput.value)) {
+                showFieldError(emailInput, emailError, 'Sila masukkan email yang sah');
+                return false;
+            } else {
+                clearFieldError(emailInput, emailError);
+                return true;
+            }
+        }
+
+        function validateRegPassword() {
+            const passwordInput = document.getElementById('regPassword');
+            const passwordError = document.getElementById('regPasswordError');
+
+            if (!passwordInput.value.trim()) {
+                showFieldError(passwordInput, passwordError, 'Kata laluan diperlukan');
+                return false;
+            } else if (passwordInput.value.length < 6) {
+                showFieldError(passwordInput, passwordError, 'Kata laluan mesti sekurang-kurangnya 6 aksara');
+                return false;
+            } else {
+                clearFieldError(passwordInput, passwordError);
+                return true;
+            }
+        }
+
+        function validateConfirmPassword() {
+            const password = document.getElementById('regPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+            const confirmError = document.getElementById('confirmError');
+            
+            if (!confirm.trim()) {
+                showFieldError(document.getElementById('confirmPassword'), confirmError, 'Pengesahan kata laluan diperlukan');
+                return false;
+            } else if (confirm !== password) {
+                showFieldError(document.getElementById('confirmPassword'), confirmError, 'Kata laluan tidak sepadan');
+                return false;
+            } else {
+                clearFieldError(document.getElementById('confirmPassword'), confirmError);
+                return true;
+            }
+        }
+
+        // Handle registration
+        function handleRegister(e) {
+            e.preventDefault();
+            
+            // Validate all fields
+            const isEmailValid = validateRegEmail();
+            const isPasswordValid = validateRegPassword();
+            const isConfirmValid = validateConfirmPassword();
+            
+            if (!isEmailValid || !isPasswordValid || !isConfirmValid) {
+                return;
+            }
+            
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            
+            // Show loading state for register
+            showRegLoadingState(true);
+            
+            // Use API for registration
+            fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                showRegLoadingState(false);
+                if (data.error) {
+                    showRegError(data.error);
+                } else {
+                    showRegSuccess('Pendaftaran berjaya! Anda boleh log masuk sekarang.');
+                    setTimeout(() => {
+                        toggleForms();
+                    }, 2000);
+                }
+            })
+            .catch(error => {
+                showRegLoadingState(false);
+                showRegError('An error occurred during registration');
+            });
+        }
+
+        function showRegLoadingState(isLoading) {
+            const registerButton = document.getElementById('registerButton');
+            const buttonText = document.getElementById('regButtonText');
+            const loadingSpinner = document.getElementById('regLoadingSpinner');
+
+            if (isLoading) {
+                registerButton.disabled = true;
+                buttonText.style.display = 'none';
+                loadingSpinner.style.display = 'block';
+            } else {
+                registerButton.disabled = false;
+                buttonText.style.display = 'block';
+                loadingSpinner.style.display = 'none';
+            }
+        }
+
+        function showRegSuccess(message) {
+            const successMessage = document.getElementById('regSuccessMessage');
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            
+            // Animate
+            anime({
+                targets: successMessage,
+                scale: [1, 1.05, 1],
+                duration: 600,
+                easing: 'easeInOutQuad'
+            });
+            
+            // Hide after 3 seconds if needed
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        function showRegError(message) {
+            const errorMessage = document.getElementById('regError');
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            
+            // Animate shake
+            anime({
+                targets: errorMessage,
+                translateX: [-10, 10, -5, 5, 0],
+                duration: 400,
+                easing: 'easeInOutQuad'
+            });
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        // Add to DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeLoginPage();
+            setupLoginEventListeners();
+            setupRegisterEventListeners();
+        });
+    </script>
+</body>
+</html>
+ 

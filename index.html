@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rumah Bersih, Hati Tenang - House Cleaning Service Ipoh</title>
+    <meta name="description" content="Professional house cleaning service in Ipoh. 5 years experience, trusted cleaners, affordable prices. Book now for basic cleaning, deep cleaning, move-in/out cleaning.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --primary-teal: #14B8A6;
+            --accent-orange: #FB923C;
+            --success-green: #22C55E;
+            --bg-warm: #FAFAF9;
+            --text-slate: #1E293B;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-warm);
+            color: var(--text-slate);
+        }
+        
+        .font-display {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1) 0%, rgba(251, 146, 60, 0.1) 100%);
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .service-card.selected {
+            border-color: var(--primary-teal);
+            background-color: rgba(20, 184, 166, 0.05);
+        }
+        
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-teal), var(--accent-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin: 0 12px;
+        }
+        
+        .coverage-area {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(251, 146, 60, 0.1));
+            border-radius: 20px;
+            padding: 32px;
+        }
+        
+        .trust-badge {
+            background: white;
+            border: 2px solid var(--primary-teal);
+            border-radius: 50px;
+            padding: 12px 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--primary-teal);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo & Brand -->
+                <div class="flex items-center">
+                    <img src="resources/Reufa_logo.png" alt="CleanHome Logo" class="h-14 w-auto">
+                    <span class="ml-3 font-display font-bold text-2xl text-slate-800">CleanHome</span>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-slate-600 hover:text-teal-600 font-medium transition-colors" data-translate="home">Laman Utama</a>
+                    <a href="#services" class="text-slate-600 hover:text-teal-600 font-medium transition-colors" data-translate="services">Perkhidmatan</a>
+                    <a href="booking.html" class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition-colors font-medium" data-translate="heroCTA">Tempah Sekarang</a>
+                </div>
+                
+                <!-- Language Toggle -->
+                <div class="flex items-center space-x-4">
+                    <select id="languageToggle" class="bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm font-medium">
+                        <option value="bm">🇲🇾 BM</option>
+                        <option value="cn">🇨🇳 中文</option>
+                        <option value="en">🇬🇧 EN</option>
+                    </select>
+                    
+                    <!-- Mobile menu button -->
+                    <button class="md:hidden p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg min-h-screen flex items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Hero Content -->
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <h1 class="hero-title font-display font-bold text-5xl lg:text-6xl leading-tight">
+                            <span class="gradient-text" data-translate="heroTitle">Rumah Bersih, Hati Tenang</span>
+                        </h1>
+                        <p class="hero-subtitle text-xl text-slate-600 leading-relaxed" data-translate="heroSubtitle">
+                            Melayani area Ipoh & sekitarnya • Pengalaman 5 tahun
+                        </p>
+                        <p class="hero-subtitle text-xl text-slate-600 leading-relaxed" data-translate="heroIntro">
+                            Saya dan pasukan bukan sekadar membersih; kami menjaga ruang anda seolah-olah milik kami. Kami berikan anda hadiah masa dan persekitaran yang benar-benar bersih. Kami bukan sekadar servis; kami sebahagian daripada komuniti anda.
+                        </p>
+                        <h2 class="font-display font-bold text-2xl text-slate-800" data-translate="heroReady">Sedia untuk Perubahan Menyegarkan?</h2>
+                        <ul class="list-disc list-inside text-lg text-slate-600 space-y-2">
+                            <li data-translate="heroLocalExpertise">Kepakaran Tempatan sejak 2018.</li>
+                            <li data-translate="heroFriendlyThorough">Pasukan Mesra & Teliti.</li>
+                            <li data-translate="heroPersonalizedSchedules">Jadual pembersihan yang diperibadikan.</li>
+                            <li data-translate="heroSatisfactionGuarantee">Jaminan Kepuasan 100%.</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- CTA Button -->
+                    <div class="hero-cta">
+                        <a href="booking.html" class="inline-flex items-center px-8 py-4 bg-teal-600 text-white font-semibold rounded-xl hover:bg-teal-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                            <span data-translate="heroCTA">Tempah Sekarang</span>
+                            <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Hero Image -->
+                <div class="animate-on-scroll">
+                    <img src="resources/Reyfa.png" alt="Miss Reyfa" class="rounded-full shadow-2xl w-full h-96 object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="font-display font-bold text-4xl text-slate-800 mb-4">Pilihan Perkhidmatan</h2>
+                <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+                    Pilih perkhidmatan yang sesuai dengan keperluan rumah anda
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Basic Cleaning -->
+                <div class="service-card bg-white border-2 border-slate-200 rounded-2xl p-6 text-center animate-on-scroll" data-service="basic_cleaning">
+                    <div class="mb-4">
+                        <img src="resources/service-cleaning.jpg" alt="Basic Cleaning" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="service-name font-display font-semibold text-xl text-slate-800 mb-2" data-translate="basicCleaning">Pembersihan Asas</h3>
+                    <p class="service-duration text-slate-600 mb-2">Tempoh: 2-3 jam</p>
+                    <p class="text-2xl font-bold text-teal-600 mb-4">Dari RM 80</p>
+                    <button class="w-full bg-teal-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-teal-700 transition-colors" data-translate="select">Pilih</button>
+                </div>
+                
+                <!-- Deep Cleaning -->
+                <div class="service-card bg-white border-2 border-slate-200 rounded-2xl p-6 text-center animate-on-scroll" data-service="deep_cleaning">
+                    <div class="mb-4">
+                        <img src="resources/service-deep.jpg" alt="Deep Cleaning" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="service-name font-display font-semibold text-xl text-slate-800 mb-2" data-translate="deepCleaning">Pembersihan Mendalam</h3>
+                    <p class="service-duration text-slate-600 mb-2">Tempoh: 4-5 jam</p>
+                    <p class="text-2xl font-bold text-teal-600 mb-4">Dari RM 150</p>
+                    <button class="w-full bg-teal-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-teal-700 transition-colors" data-translate="select">Pilih</button>
+                </div>
+                
+                <!-- Move In/Out -->
+                <div class="service-card bg-white border-2 border-slate-200 rounded-2xl p-6 text-center animate-on-scroll" data-service="move_in_out">
+                    <div class="mb-4">
+                        <img src="resources/service-move.jpg" alt="Move In/Out" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="service-name font-display font-semibold text-xl text-slate-800 mb-2" data-translate="moveInOut">Pindah Masuk/Keluar</h3>
+                    <p class="service-duration text-slate-600 mb-2">Tempoh: 3-4 jam</p>
+                    <p class="text-2xl font-bold text-teal-600 mb-4">Dari RM 200</p>
+                    <button class="w-full bg-teal-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-teal-700 transition-colors" data-translate="select">Pilih</button>
+                </div>
+                
+                <!-- Post Renovation -->
+                <div class="service-card bg-white border-2 border-slate-200 rounded-2xl p-6 text-center animate-on-scroll" data-service="post_renovation">
+                    <div class="mb-4">
+                        <img src="resources/service-renovation.jpg" alt="Post Renovation" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="service-name font-display font-semibold text-xl text-slate-800 mb-2" data-translate="postRenovation">Pasca Renovasi</h3>
+                    <p class="service-duration text-slate-600 mb-2">Tempoh: Sehari penuh</p>
+                    <p class="text-2xl font-bold text-teal-600 mb-4">Dari RM 300</p>
+                    <button class="w-full bg-teal-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-teal-700 transition-colors" data-translate="select">Pilih</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coverage Area -->
+    <section class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="coverage-area">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="animate-on-scroll">
+                        <h2 class="font-display font-bold text-3xl text-slate-800 mb-6" data-translate="coverageTitle">Liputan Kawasan</h2>
+                        <p class="text-lg text-slate-600 mb-6">
+                            Kami menyediakan perkhidmatan dalam radius 30km dari pusat bandar Ipoh
+                        </p>
+                        <div class="space-y-2 mb-6">
+                            <div class="flex items-center text-slate-700">
+                                <svg class="w-5 h-5 text-teal-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span data-translate="coverageAreas">Ipoh, Bercham, Menglembu, Falim, Taman...</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-500" data-translate="coverageCheck">Tidak pasti? WhatsApp kami untuk check</p>
+                    </div>
+                    
+                    <div class="animate-on-scroll">
+                        <img src="resources/coverage-map.png" alt="Coverage Area Map" class="w-full rounded-xl shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="font-display font-bold text-4xl text-slate-800 mb-4" data-translate="whyTitle">Kenapa Pilih Kami</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center animate-on-scroll">
+                    <div class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display font-semibold text-xl text-slate-800 mb-2" data-translate="why1">✓ Berpengalaman 5 tahun</h3>
+                    <p class="text-slate-600">Pengalaman luas dalam perkhidmatan pembersihan rumah di Ipoh</p>
+                </div>
+                
+                <div class="text-center animate-on-scroll">
+                    <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display font-semibold text-xl text-slate-800 mb-2" data-translate="why2">✓ Pekerja dipercayai & terlatih</h3>
+                    <p class="text-slate-600">Team profesional yang teliti dan boleh dipercayai</p>
+                </div>
+                
+                <div class="text-center animate-on-scroll">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display font-semibold text-xl text-slate-800 mb-2" data-translate="why3">✓ Harga berpatutan, hasil memuaskan</h3>
+                    <p class="text-slate-600">Kualiti terbaik dengan harga yang munasabah</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="font-display font-bold text-4xl text-slate-800 mb-4">Apa Kata Pelanggan</h2>
+                <p class="text-xl text-slate-600">Testimoni dari pelanggan yang berpuas hati</p>
+            </div>
+            
+            <div class="splide testimonial-carousel animate-on-scroll" id="testimonial-carousel">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <div class="testimonial-card">
+                                <div class="flex items-center mb-4">
+                                    <img src="resources/testimonial-1.jpg" alt="Customer" class="w-12 h-12 rounded-full object-cover mr-4">
+                                    <div>
+                                        <h4 class="font-semibold text-slate-800">Puan Sarah</h4>
+                                        <p class="text-sm text-slate-600">Taman Ipoh Jaya</p>
+                                    </div>
+                                </div>
+                                <p class="text-slate-700 mb-4">"Servis sangat memuaskan! Rumah saya jadi bersih sangat. Team yang datang sangat profesional dan teliti."</p>
+                                <div class="flex text-yellow-400">
+                                    ⭐⭐⭐⭐⭐
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="splide__slide">
+                            <div class="testimonial-card">
+                                <div class="flex items-center mb-4">
+                                    <img src="resources/testimonial-2.jpg" alt="Customer" class="w-12 h-12 rounded-full object-cover mr-4">
+                                    <div>
+                                        <h4 class="font-semibold text-slate-800">Cik Lee</h4>
+                                        <p class="text-sm text-slate-600">Bercham</p>
+                                    </div>
+                                </div>
+                                <p class="text-slate-700 mb-4">"Saya guna perkhidmatan ini setiap bulan. Harga berpatutan dan kualiti terbaik. Highly recommended!"</p>
+                                <div class="flex text-yellow-400">
+                                    ⭐⭐⭐⭐⭐
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="splide__slide">
+                            <div class="testimonial-card">
+                                <div class="flex items-center mb-4">
+                                    <img src="resources/testimonial-3.jpg" alt="Customer" class="w-12 h-12 rounded-full object-cover mr-4">
+                                    <div>
+                                        <h4 class="font-semibold text-slate-800">Encik Tan</h4>
+                                        <p class="text-sm text-slate-600">Menglembu</p>
+                                    </div>
+                                </div>
+                                <p class="text-slate-700 mb-4">"Pembersihan pasca renovasi sangat thorough. Semua habuk dan kotoran dibersihkan dengan baik."</p>
+                                <div class="flex text-yellow-400">
+                                    ⭐⭐⭐⭐⭐
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <img src="resources/logo.png" alt="CleanHome Logo" class="h-10 w-auto mr-3">
+                    <span class="font-display font-bold text-2xl">CleanHome Ipoh</span>
+                </div>
+                <p class="text-slate-400 mb-4">
+                    Professional house cleaning service in Ipoh, Perak
+                </p>
+                <p class="text-sm text-slate-500">
+                    © 2024 CleanHome Ipoh. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="#" class="whatsapp-float bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-colors whatsapp-btn">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.888 1.213 3.074.149.187 2.096 3.212 5.074 4.487.709.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+        </svg>
+        <span class="sr-only" data-translate="whatsappFloat">WhatsApp</span>
+    </a>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    <script>
+        // Initialize testimonial carousel
+        document.addEventListener('DOMContentLoaded', function() {
+            new Splide('#testimonial-carousel', {
+                type: 'loop',
+                perPage: 3,
+                perMove: 1,
+                gap: '1rem',
+                autoplay: true,
+                interval: 5000,
+                breakpoints: {
+                    768: {
+                        perPage: 1,
+                    },
+                    1024: {
+                        perPage: 2,
+                    }
+                }
+            }).mount();
+        });
+    </script>
+</body>
+</html>

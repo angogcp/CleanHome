@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tempahan Berjaya - CleanHome Ipoh</title>
+    <meta name="description" content="Tempahan pembersihan rumah anda telah berjaya diterima. Kami akan menghubungi anda dalam masa 2 jam.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --primary-teal: #14B8A6;
+            --accent-orange: #FB923C;
+            --success-green: #22C55E;
+            --bg-warm: #FAFAF9;
+            --text-slate: #1E293B;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-warm);
+            color: var(--text-slate);
+        }
+        
+        .font-display {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .success-animation {
+            animation: successPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--success-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            animation: checkmarkPop 0.6s ease-out;
+        }
+        
+        @keyframes checkmarkPop {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .booking-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .booking-ref {
+            background: linear-gradient(135deg, var(--primary-teal), var(--accent-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            position: relative;
+        }
+        
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 40px;
+            width: 2px;
+            height: 40px;
+            background: #E2E8F0;
+        }
+        
+        .timeline-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary-teal);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 16px;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+        
+        .timeline-content {
+            flex: 1;
+        }
+        
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 8px;
+        }
+        
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+        }
+        
+        .whatsapp-btn:hover {
+            background: #1DBE5A;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        }
+        
+        .calendar-btn {
+            background: var(--primary-teal);
+            color: white;
+        }
+        
+        .calendar-btn:hover {
+            background: #0D9488;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
+        }
+        
+        .home-btn {
+            background: #F1F5F9;
+            color: #475569;
+            border: 2px solid #E2E8F0;
+        }
+        
+        .home-btn:hover {
+            background: #E2E8F0;
+            border-color: #CBD5E1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="index.html">
+                        <img src="resources/logo.png" alt="Logo" class="h-10 w-auto">
+                    </a>
+                    <span class="ml-3 font-display font-bold text-xl text-slate-800">CleanHome</span>
+                </div>
+                
+                <!-- Language Toggle -->
+                <div class="flex items-center space-x-4">
+                    <select id="languageToggle" class="bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm font-medium">
+                        <option value="bm">🇲🇾 BM</option>
+                        <option value="en">🇬🇧 EN</option>
+                        <option value="cn">🇨🇳 中文</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Success Content -->
+    <div class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Success Animation -->
+            <div class="text-center mb-12">
+                <div class="checkmark">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                
+                <h1 class="font-display font-bold text-4xl text-slate-800 mb-4" data-translate="bookingSuccess">Tempahan Berjaya!</h1>
+                <p class="text-xl text-slate-600 mb-6" data-translate="thankYou">Terima kasih! Tempahan anda diterima</p>
+                
+                <div class="booking-ref-container">
+                    <p class="text-slate-600 mb-2" data-translate="bookingReference">Rujukan Tempahan</p>
+                    <div class="booking-ref" id="bookingRef">IP-241012-001</div>
+                </div>
+            </div>
+
+            <!-- Booking Details Card -->
+            <div class="booking-card mb-12">
+                <h2 class="font-display font-bold text-2xl text-slate-800 mb-6 text-center">Maklumat Tempahan</h2>
+                
+                <div id="bookingDetails" class="space-y-4">
+                    <!-- Details will be populated by JavaScript -->
+                </div>
+                
+                <div class="bg-teal-50 border border-teal-200 rounded-lg p-4 mt-6">
+                    <div class="flex items-start">
+                        <svg class="w-5 h-5 text-teal-600 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                        </svg>
+                        <div>
+                            <h3 class="font-semibold text-teal-800 mb-1">Penting!</h3>
+                            <p class="text-teal-700 text-sm">Kami akan menghubungi anda melalui WhatsApp dalam tempoh 2 jam untuk pengesahan tempahan dan penetapan masa yang sesuai.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Steps Timeline -->
+            <div class="booking-card mb-12">
+                <h2 class="font-display font-bold text-2xl text-slate-800 mb-6" data-translate="nextSteps">Apa Seterusnya</h2>
+                
+                <div class="space-y-4">
+                    <div class="timeline-item">
+                        <div class="timeline-icon">1</div>
+                        <div class="timeline-content">
+                            <h3 class="font-semibold text-slate-800 mb-1">Kami akan WhatsApp anda (< 2 jam)</h3>
+                            <p class="text-slate-600 text-sm">Team kami akan menghubungi anda untuk pengesahan tempahan dan maklumat lanjut.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon">2</div>
+                        <div class="timeline-content">
+                            <h3 class="font-semibold text-slate-800 mb-1">Pengesahan tarikh & masa</h3>
+                            <p class="text-slate-600 text-sm">Maklumat terperinci tentang tarikh, masa dan team yang akan datang akan dikemukakan.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon">3</div>
+                        <div class="timeline-content">
+                            <h3 class="font-semibold text-slate-800 mb-1">Pembersihan dilakukan</h3>
+                            <p class="text-slate-600 text-sm">Team profesional kami akan menjalankan perkhidmatan pembersihan mengikut jadual yang dipersetujui.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="text-center">
+                <h3 class="font-display font-semibold text-xl text-slate-800 mb-6">Tindakan Seterusnya</h3>
+                
+                <div class="flex flex-wrap justify-center">
+                    <a href="#" class="action-button whatsapp-btn whatsapp-btn" data-phone="+60123456789" data-message="Halo, saya baru sahaja membuat tempahan. Boleh saya dapatkan pengesahan?">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.888 1.213 3.074.149.187 2.096 3.212 5.074 4.487.709.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                        </svg>
+                        WhatsApp Kami
+                    </a>
+                    
+                    <button class="action-button calendar-btn" onclick="addToCalendar()">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <span data-translate="addToCalendar">Tambah ke Kalendar</span>
+                    </button>
+                    
+                    <a href="index.html" class="action-button home-btn">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                        <span data-translate="backToHome">Kembali ke Laman Utama</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <img src="resources/logo.png" alt="Logo" class="h-8 w-auto mr-3">
+                    <span class="font-display font-bold text-xl">CleanHome Ipoh</span>
+                </div>
+                <p class="text-slate-400 mb-4">
+                    Professional house cleaning service in Ipoh, Perak
+                </p>
+                <p class="text-sm text-slate-500">
+                    © 2024 CleanHome Ipoh. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSuccessPage();
+            triggerConfetti();
+        });
+        
+        function initializeSuccessPage() {
+            // Get booking reference from localStorage
+            const bookingRef = localStorage.getItem('lastBookingRef');
+            if (bookingRef) {
+                document.getElementById('bookingRef').textContent = bookingRef;
+                loadBookingDetails(bookingRef);
+            }
+            
+            // Update language display
+            updateLanguageDisplay();
+        }
+        
+        function loadBookingDetails(bookingRef) {
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            const booking = bookings.find(b => b.bookingRef === bookingRef);
+            
+            if (booking) {
+                displayBookingDetails(booking);
+            }
+        }
+        
+        function displayBookingDetails(booking) {
+            const detailsContainer = document.getElementById('bookingDetails');
+            const service = serviceData[booking.serviceType];
+            
+            const details = [
+                { label: 'Perkhidmatan', value: service.name[AppState.currentLanguage] },
+                { label: 'Saiz Rumah', value: booking.homeSize },
+                { label: 'Tarikh', value: formatDate(booking.bookingDate) },
+                { label: 'Masa', value: booking.bookingTime === 'morning' ? 'Pagi (9-12 AM)' : 'Petang (2-5 PM)' },
+                { label: 'Lokasi', value: `${booking.streetAddress}, ${booking.area}` },
+                { label: 'Anggaran Harga', value: `RM ${booking.estimatedPrice || 0}` },
+                { label: 'Nama', value: booking.fullName },
+                { label: 'Telefon', value: `+60${booking.phoneNumber}` }
+            ];
+            
+            detailsContainer.innerHTML = details.map(detail => `
+                <div class="flex justify-between py-2 border-b border-slate-100">
+                    <span class="text-slate-600">${detail.label}:</span>
+                    <span class="font-medium text-slate-800">${detail.value}</span>
+                </div>
+            `).join('');
+        }
+        
+        function triggerConfetti() {
+            // Trigger confetti animation
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#14B8A6', '#FB923C', '#22C55E']
+            });
+            
+            // Trigger another confetti after 1 second
+            setTimeout(() => {
+                confetti({
+                    particleCount: 50,
+                    spread: 60,
+                    origin: { y: 0.7 },
+                    colors: ['#14B8A6', '#FB923C']
+                });
+            }, 1000);
+        }
+        
+        function addToCalendar() {
+            const bookingRef = localStorage.getItem('lastBookingRef');
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            const booking = bookings.find(b => b.bookingRef === bookingRef);
+            
+            if (booking) {
+                const service = serviceData[booking.serviceType];
+                const event = {
+                    title: `Pembersihan Rumah - ${service.name[AppState.currentLanguage]}`,
+                    start: booking.bookingDate,
+                    duration: booking.serviceType === 'post_renovation' ? '8:00' : '3:00',
+                    description: `Tempahan pembersihan rumah dengan CleanHome Ipoh. Rujukan: ${bookingRef}`,
+                    location: `${booking.streetAddress}, ${booking.area}`
+                };
+                
+                // Create calendar URL (Google Calendar)
+                const startDate = booking.bookingDate.replace(/-/g, '');
+                const endDate = new Date(booking.bookingDate);
+                endDate.setDate(endDate.getDate() + 1);
+                const endDateStr = endDate.toISOString().split('T')[0].replace(/-/g, '');
+                
+                const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${startDate}/${endDateStr}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.location)}`;
+                
+                window.open(calendarUrl, '_blank');
+            }
+        }
+        
+        // Add success animation to checkmark
+        setTimeout(() => {
+            const checkmark = document.querySelector('.checkmark');
+            if (checkmark) {
+                checkmark.classList.add('success-animation');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

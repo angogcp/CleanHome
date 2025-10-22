@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tempah Perkhidmatan - CleanHome Ipoh</title>
+    <meta name="description" content="Tempah perkhidmatan pembersihan rumah profesional di Ipoh. Pembersihan asas, pembersihan mendalam, pindah masuk/keluar, pasca renovasi.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --primary-teal: #14B8A6;
+            --accent-orange: #FB923C;
+            --success-green: #22C55E;
+            --bg-warm: #FAFAF9;
+            --text-slate: #1E293B;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-warm);
+            color: var(--text-slate);
+        }
+        
+        .font-display {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary-teal) 0%, var(--accent-orange) 100%);
+            height: 4px;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        .step-indicator {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .step-indicator.active {
+            background-color: var(--primary-teal);
+            color: white;
+        }
+        
+        .step-indicator.completed {
+            background-color: var(--success-green);
+            color: white;
+        }
+        
+        .step-indicator.inactive {
+            background-color: #E2E8F0;
+            color: #64748B;
+        }
+        
+        .booking-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+        }
+        
+        .form-input {
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary-teal);
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+            outline: none;
+        }
+        
+        .form-input.error {
+            border-color: #EF4444;
+        }
+        
+        .form-input.success {
+            border-color: var(--success-green);
+        }
+        
+        .service-option {
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .service-option:hover {
+            border-color: var(--primary-teal);
+            background-color: rgba(20, 184, 166, 0.05);
+        }
+        
+        .service-option.selected {
+            border-color: var(--primary-teal);
+            background-color: rgba(20, 184, 166, 0.1);
+        }
+        
+        .home-size-option {
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .home-size-option:hover {
+            border-color: var(--primary-teal);
+        }
+        
+        .home-size-option.selected {
+            border-color: var(--primary-teal);
+            background-color: rgba(20, 184, 166, 0.1);
+        }
+        
+        .price-display {
+            background: linear-gradient(135deg, var(--primary-teal), var(--accent-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            font-size: 2rem;
+        }
+        
+        .validation-error {
+            color: #EF4444;
+            font-size: 0.875rem;
+            margin-top: 4px;
+            display: none;
+        }
+        
+        .booking-step {
+            display: none;
+        }
+        
+        .booking-step.active {
+            display: block;
+        }
+        
+        .step-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #E2E8F0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="index.html">
+                        <img src="resources/Reufa_logo.png" alt="CleanHome Logo" class="h-14 w-auto">
+                    </a>
+                    <span class="ml-3 font-display font-bold text-xl text-slate-800">CleanHome</span>
+                </div>
+                
+                <!-- Language Toggle -->
+                <div class="flex items-center space-x-4">
+                    <select id="languageToggle" class="bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm font-medium">
+                        <option value="bm">🇲🇾 BM</option>
+                        <option value="cn">🇨🇳 中文</option>
+                        <option value="en">🇬🇧 EN</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Progress Indicator -->
+    <div class="bg-white py-6">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-4">
+                    <div class="step-indicator active" id="step-1-indicator">1</div>
+                    <div class="w-16 h-1 bg-slate-200 rounded">
+                        <div class="progress-bar" id="progress-bar" style="width: 33.33%"></div>
+                    </div>
+                    <div class="step-indicator inactive" id="step-2-indicator">2</div>
+                    <div class="w-16 h-1 bg-slate-200 rounded">
+                        <div class="progress-bar" style="width: 0%" id="progress-bar-2"></div>
+                    </div>
+                    <div class="step-indicator inactive" id="step-3-indicator">3</div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <h1 class="font-display font-bold text-2xl text-slate-800 mb-2" id="step-title" data-translate="step1">Langkah 1: Jenis Perkhidmatan & Saiz Rumah</h1>
+                <p class="text-slate-600">Lengkapkan maklumat untuk tempahan pembersihan rumah</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Form -->
+    <div class="py-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="booking-card">
+                <form id="bookingForm">
+                    <!-- Step 1: Service & Home Size -->
+                    <div class="booking-step active" id="step-1">
+                        <div class="space-y-8">
+                            <!-- Service Selection -->
+                            <div>
+                                <h3 class="font-display font-semibold text-xl text-slate-800 mb-4" data-translate="serviceType">Jenis Perkhidmatan</h3>
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="service-option" data-service="basic_cleaning">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <h4 class="font-semibold text-slate-800" data-translate="basicCleaning">Pembersihan Asas</h4>
+                                            <span class="text-sm text-slate-600" data-translate="duration">2-3 jam</span>
+                                        </div>
+                                        <p class="text-teal-600 font-bold" data-translate="from">Dari RM 80</p>
+                                        <p class="text-sm text-slate-600">3 jam × RM 25 = RM 75</p>
+                                    </div>
+                                    
+                                    <div class="service-option" data-service="deep_cleaning">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <h4 class="font-semibold text-slate-800" data-translate="deepCleaning">Pembersihan Mendalam</h4>
+                                            <span class="text-sm text-slate-600" data-translate="duration">4-5 jam</span>
+                                        </div>
+                                        <p class="text-teal-600 font-bold" data-translate="from">Dari RM 150</p>
+                                        <p class="text-sm text-slate-600">5 jam × RM 25 = RM 125</p>
+                                    </div>
+                                    
+                                    <div class="service-option" data-service="move_in_out">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <h4 class="font-semibold text-slate-800" data-translate="moveInOut">Pindah Masuk/Keluar</h4>
+                                            <span class="text-sm text-slate-600" data-translate="duration">3-4 jam</span>
+                                        </div>
+                                        <p class="text-teal-600 font-bold" data-translate="from">Dari RM 200</p>
+                                        <p class="text-sm text-slate-600">4 jam × RM 25 = RM 100</p>
+                                    </div>
+                                    
+                                    <div class="service-option" data-service="post_renovation">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <h4 class="font-semibold text-slate-800" data-translate="postRenovation">Pasca Renovasi</h4>
+                                            <span class="text-sm text-slate-600" data-translate="duration">Sehari penuh</span>
+                                        </div>
+                                        <p class="text-teal-600 font-bold" data-translate="from">Dari RM 300</p>
+                                        <p class="text-sm text-slate-600">8 jam × RM 25 = RM 200</p>
+                                    </div>
+                                    
+                                    <div class="service-option" data-service="hourly_cleaning">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <h4 class="font-semibold text-slate-800" data-translate="hourlyCleaning">Pembersihan Mengikut Jam</h4>
+                                            <span class="text-sm text-slate-600" data-translate="duration">Fleksibel</span>
+                                        </div>
+                                        <p class="text-teal-600 font-bold" data-translate="from">RM 25 / jam</p>
+                                        <p class="text-sm text-slate-600">Pilih bilangan jam</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Price Estimate -->
+                            <div class="bg-slate-50 rounded-lg p-6 text-center">
+                                <h4 class="font-semibold text-slate-800 mb-2" data-translate="estimatedPrice">Anggaran Harga</h4>
+                                <div class="price-display" id="estimatedPrice">RM 0</div>
+                                <p class="text-sm text-slate-600 mt-2">*Harga akhir akan disahkan semasa WhatsApp</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Date & Location -->
+                    <div class="booking-step" id="step-2">
+                        <div class="space-y-8">
+                            <!-- Date Selection -->
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block font-semibold text-slate-800 mb-2" data-translate="bookingDate">Tarikh Tempahan</label>
+                                    <input type="date" name="bookingDate" class="form-input w-full" required>
+                                    <div class="validation-error">Sila pilih tarikh yang sah</div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block font-semibold text-slate-800 mb-2" data-translate="bookingTime">Masa</label>
+                                    <select name="bookingTime" class="form-input w-full" required>
+                                        <option value="" data-translate="bookingTime">Pilih Masa</option>
+                                        <option value="morning" data-translate="morning">Pagi (9-12 AM)</option>
+                                        <option value="afternoon" data-translate="afternoon">Petang (2-5 PM)</option>
+                                    </select>
+                                    <div class="validation-error">Sila pilih masa</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Address Information -->
+                            <div class="space-y-4">
+                                <h3 class="font-display font-semibold text-xl text-slate-800">Alamat Rumah</h3>
+                                
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block font-semibold text-slate-800 mb-2" data-translate="area">Kawasan</label>
+                                        <select name="area" class="form-input w-full" required>
+                                            <option value="" data-translate="area">Pilih Kawasan</option>
+                                            <option value="Ipoh">Ipoh</option>
+                                            <option value="Bercham">Bercham</option>
+                                            <option value="Menglembu">Menglembu</option>
+                                            <option value="Falim">Falim</option>
+                                            <option value="Taman Ipoh Jaya">Taman Ipoh Jaya</option>
+                                            <option value="Taman Pertama">Taman Pertama</option>
+                                            <option value="Taman Lim">Taman Lim</option>
+                                            <option value="Canning Garden">Canning Garden</option>
+                                            <option value="Taman Che Wan">Taman Che Wan</option>
+                                        </select>
+                                        <div class="validation-error">Sila pilih kawasan</div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block font-semibold text-slate-800 mb-2" data-translate="postcode">Poskod</label>
+                                        <input type="text" name="postcode" class="form-input w-full" required pattern="[0-9]{5}">
+                                        <div class="validation-error">Sila masukkan poskod yang sah (5 digit)</div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block font-semibold text-slate-800 mb-2" data-translate="streetAddress">Alamat Jalan</label>
+                                    <input type="text" name="streetAddress" class="form-input w-full" required placeholder="Contoh: Jalan Tun Sambanthan">
+                                    <div class="validation-error">Sila masukkan alamat jalan</div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block font-semibold text-slate-800 mb-2" data-translate="unitNumber">No. Unit (Optional)</label>
+                                    <input type="text" name="unitNumber" class="form-input w-full" placeholder="Contoh: A-10-5">
+                                </div>
+                            </div>
+                            
+                            <!-- Special Requests -->
+                            <div>
+                                <label class="block font-semibold text-slate-800 mb-2" data-translate="specialRequests">Permintaan Khas (Pilihan)</label>
+                                <textarea name="specialRequests" class="form-input w-full h-24" placeholder="Contoh: Fokus pada bilik air dan dapur, ada haiwan peliharaan, dll."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Contact Details -->
+                    <div class="booking-step" id="step-3">
+                        <div class="space-y-8">
+                            <!-- Contact Information -->
+                            <div class="space-y-4">
+                                <h3 class="font-display font-semibold text-xl text-slate-800">Maklumat Hubungan</h3>
+                                
+                                <div>
+                                    <label class="block font-semibold text-slate-800 mb-2" data-translate="fullName">Nama Penuh</label>
+                                    <input type="text" name="fullName" class="form-input w-full" required>
+                                    <div class="validation-error">Sila masukkan nama penuh</div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block font-semibold text-slate-800 mb-2" data-translate="phoneNumber">Nombor Telefon</label>
+                                    <div class="flex">
+                                        <span class="inline-flex items-center px-3 bg-slate-100 border border-r-0 border-slate-300 rounded-l-lg text-slate-600">+60</span>
+                                        <input type="tel" name="phoneNumber" class="form-input w-full rounded-l-none" required pattern="[0-9]{9,10}">
+                                    </div>
+                                    <div class="validation-error">Sila masukkan nombor telefon yang sah (9-10 digit)</div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <input type="checkbox" name="whatsappNumber" id="whatsappNumber" class="mr-3 h-4 w-4 text-teal-600">
+                                    <label for="whatsappNumber" class="text-slate-700" data-translate="whatsappNumber">Adakah ini nombor WhatsApp?</label>
+                                </div>
+                                
+                                <div>
+                                    <label class="block font-semibold text-slate-800 mb-2" data-translate="alternativeContact">Nombor Alternatif (Pilihan)</label>
+                                    <div class="flex">
+                                        <span class="inline-flex items-center px-3 bg-slate-100 border border-r-0 border-slate-300 rounded-l-lg text-slate-600">+60</span>
+                                        <input type="tel" name="alternativeContact" class="form-input w-full rounded-l-none">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Booking Summary -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h4 class="font-display font-semibold text-lg text-slate-800 mb-4" data-translate="bookingSummary">Ringkasan Tempahan</h4>
+                                <div id="bookingSummary" class="space-y-2 text-sm text-slate-600">
+                                    <!-- Summary will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="step-navigation">
+                        <button type="button" class="prev-step bg-slate-200 text-slate-700 px-6 py-3 rounded-lg font-medium hover:bg-slate-300 transition-colors" style="display: none;">
+                            ← Kembali
+                        </button>
+                        
+                        <div class="flex space-x-4">
+                            <button type="button" class="next-step bg-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition-colors opacity-50" disabled>
+                                Seterusnya →
+                            </button>
+                            
+                            <button type="submit" class="submit-booking bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors" style="display: none;" data-translate="confirmBooking">
+                                Sahkan Tempahan
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    <script>
+        // Booking form specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeBookingForm();
+        });
+        
+        
+        
+        function updatePriceEstimate() {
+            const serviceType = AppState.bookingData.serviceType;
+            const homeSize = AppState.bookingData.homeSize;
+            
+            if (serviceType && homeSize) {
+                const service = serviceData[serviceType];
+                const price = Math.round(service.basePrice * service.priceMultiplier[homeSize]);
+                
+                const priceElement = document.getElementById('estimatedPrice');
+                if (priceElement) {
+                    priceElement.textContent = `RM ${price}`;
+                    
+                    // Animate price update
+                    anime({
+                        targets: priceElement,
+                        scale: [1, 1.1, 1],
+                        duration: 300,
+                        easing: 'easeInOutQuad'
+                    });
+                }
+                
+                // Store calculated price
+                AppState.bookingData.estimatedPrice = price;
+                saveBookingData();
+            }
+        }
+        
+        function checkStepCompletion() {
+            const nextButton = document.querySelector('.next-step');
+            const currentStep = AppState.currentStep;
+            
+            let isComplete = false;
+            
+            if (currentStep === 1) {
+                isComplete = AppState.bookingData.serviceType && AppState.bookingData.hours;
+            } else if (currentStep === 2) {
+                const requiredFields = ['bookingDate', 'bookingTime', 'area', 'streetAddress', 'postcode'];
+                isComplete = requiredFields.every(field => AppState.bookingData[field]);
+            } else if (currentStep === 3) {
+                const requiredFields = ['fullName', 'phoneNumber'];
+                isComplete = requiredFields.every(field => AppState.bookingData[field]);
+            }
+            
+            if (nextButton) {
+                nextButton.disabled = !isComplete;
+                nextButton.classList.toggle('opacity-50', !isComplete);
+            }
+        }
+        
+        function updateBookingStep() {
+            // Hide all steps
+            document.querySelectorAll('.booking-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show current step
+            const currentStepElement = document.getElementById(`step-${AppState.currentStep}`);
+            if (currentStepElement) {
+                currentStepElement.classList.add('active');
+                
+                // Animate step transition
+                anime({
+                    targets: currentStepElement,
+                    opacity: [0, 1],
+                    translateX: [50, 0],
+                    duration: 400,
+                    easing: 'easeOutQuad'
+                });
+            }
+            
+            // Update step title
+            const stepTitles = {
+                1: translations[AppState.currentLanguage].step1,
+                2: translations[AppState.currentLanguage].step2,
+                3: translations[AppState.currentLanguage].step3
+            };
+            
+            const stepTitleElement = document.getElementById('step-title');
+            if (stepTitleElement) {
+                stepTitleElement.textContent = stepTitles[AppState.currentStep];
+            }
+            
+            // Update progress indicators
+            updateProgressIndicators();
+            
+            // Update navigation buttons
+            updateNavigationButtons();
+            
+            // Check step completion
+            checkStepCompletion();
+        }
+        
+        function updateProgressIndicators() {
+            for (let i = 1; i <= 3; i++) {
+                const indicator = document.getElementById(`step-${i}-indicator`);
+                if (indicator) {
+                    if (i < AppState.currentStep) {
+                        indicator.className = 'step-indicator completed';
+                        indicator.innerHTML = 'X';
+                    } else if (i === AppState.currentStep) {
+                        indicator.className = 'step-indicator active';
+                        indicator.textContent = i;
+                    } else {
+                        indicator.className = 'step-indicator inactive';
+                        indicator.textContent = i;
+                    }
+                }
+            }
+            
+            // Update progress bars
+            const progressBars = [
+                { id: 'progress-bar', progress: Math.min(100, (AppState.currentStep / 3) * 100) },
+                { id: 'progress-bar-2', progress: Math.max(0, ((AppState.currentStep - 1) / 2) * 100) }
+            ];
+            
+            progressBars.forEach(bar => {
+                const element = document.getElementById(bar.id);
+                if (element) {
+                    anime({
+                        targets: element,
+                        width: `${bar.progress}%`,
+                        duration: 300,
+                        easing: 'easeOutQuad'
+                    });
+                }
+            });
+        }
+        
+        function updateNavigationButtons() {
+            const prevButton = document.querySelector('.prev-step');
+            const nextButton = document.querySelector('.next-step');
+            const submitButton = document.querySelector('.submit-booking');
+            
+            // Show/hide previous button
+            if (prevButton) {
+                prevButton.style.display = AppState.currentStep > 1 ? 'block' : 'none';
+            }
+            
+            // Show/hide next/submit buttons
+            if (nextButton && submitButton) {
+                if (AppState.currentStep === 3) {
+                    nextButton.style.display = 'none';
+                    submitButton.style.display = 'block';
+                    updateBookingSummary();
+                } else {
+                    nextButton.style.display = 'block';
+                    submitButton.style.display = 'none';
+                }
+            }
+        }
+        
+        function updateBookingSummary() {
+            const summaryElement = document.getElementById('bookingSummary');
+            if (!summaryElement || AppState.currentStep !== 3) return;
+            
+            const data = AppState.bookingData;
+            const service = serviceData[data.serviceType];
+            
+            const summary = [
+                `<strong>Perkhidmatan:</strong> ${service.name[AppState.currentLanguage]}`,
+                `<strong>Saiz Rumah:</strong> ${data.homeSize}`,
+                `<strong>Tarikh:</strong> ${data.bookingDate}`,
+                `<strong>Masa:</strong> ${data.bookingTime === 'morning' ? 'Pagi (9-12 AM)' : 'Petang (2-5 PM)'}`,
+                `<strong>Lokasi:</strong> ${data.streetAddress}, ${data.area}`,
+                `<strong>Anggaran Harga:</strong> RM ${data.estimatedPrice || 0}`,
+                `<strong>Nama:</strong> ${data.fullName}`,
+                `<strong>Telefon:</strong> +60${data.phoneNumber}`
+            ];
+            
+            summaryElement.innerHTML = summary.map(item => `<div>${item}</div>`).join('');
+        }
+        
+        function submitBookingForm() {
+            // Validate final step
+            const requiredFields = ['fullName', 'phoneNumber'];
+            const isComplete = requiredFields.every(field => AppState.bookingData[field]);
+            
+            if (!isComplete) {
+                showNotification('Sila lengkapkan semua maklumat yang diperlukan', 'error');
+                return;
+            }
+            
+            // Submit booking
+            submitBooking();
+        }
+        
+        // Override the next step function for booking-specific logic
+        window.handleNextStep = function() {
+            if (AppState.currentStep < 3) {
+                // Validate current step before proceeding
+                if (validateCurrentStep()) {
+                    AppState.currentStep++;
+                    updateBookingStep();
+                }
+            }
+        };
+        
+        window.handlePrevStep = function() {
+            if (AppState.currentStep > 1) {
+                AppState.currentStep--;
+                updateBookingStep();
+            }
+        };
+        
+        function validateCurrentStep() {
+            const currentStep = AppState.currentStep;
+            let isValid = true;
+            
+            if (currentStep === 1) {
+                isValid = AppState.bookingData.serviceType && AppState.bookingData.homeSize;
+                if (!isValid) {
+                    showNotification('Sila pilih jenis perkhidmatan dan saiz rumah', 'error');
+                }
+            } else if (currentStep === 2) {
+                const requiredFields = ['bookingDate', 'bookingTime', 'area', 'streetAddress', 'postcode'];
+                isValid = requiredFields.every(field => AppState.bookingData[field]);
+                if (!isValid) {
+                    showNotification('Sila lengkapkan maklumat tarikh dan alamat', 'error');
+                }
+            }
+            
+            return isValid;
+        }
+    
+
+    function initializeBookingForm() {
+        // Add hourly section to step 1
+        const step1 = document.getElementById('step-1');
+        if (step1) {
+            // Create home size section container if it doesn't exist
+            let homeSizeSection = document.getElementById('homeSizeSection');
+            if (!homeSizeSection) {
+                homeSizeSection = document.createElement('div');
+                homeSizeSection.id = 'homeSizeSection';
+                homeSizeSection.innerHTML = `
+                    <h3 class="font-display font-semibold text-xl text-slate-800 mb-4" data-translate="homeSize">Saiz Rumah</h3>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="home-size-option" data-size="small">
+                            <h4 class="font-semibold text-slate-800 mb-1" data-translate="small">Kecil</h4>
+                            <p class="text-sm text-slate-600">&lt; 1000 sqft</p>
+                        </div>
+                        
+                        <div class="home-size-option" data-size="medium">
+                            <h4 class="font-semibold text-slate-800 mb-1" data-translate="medium">Sederhana</h4>
+                            <p class="text-sm text-slate-600">1000-1800 sqft</p>
+                        </div>
+                        
+                        <div class="home-size-option" data-size="large">
+                            <h4 class="font-semibold text-slate-800 mb-1" data-translate="large">Besar</h4>
+                            <p class="text-sm text-slate-600">&gt; 1800 sqft</p>
+                        </div>
+                    </div>
+                `;
+                step1.querySelector('.space-y-8').insertBefore(homeSizeSection, document.querySelector('.bg-slate-50.rounded-lg.p-6.text-center'));
+            }
+            
+            // Create hourly section if it doesn't exist
+            let hourlySection = document.getElementById('hourlySection');
+            if (!hourlySection) {
+                hourlySection = document.createElement('div');
+                hourlySection.id = 'hourlySection';
+                hourlySection.className = 'hidden';
+                hourlySection.innerHTML = `
+                    <h3 class="font-display font-semibold text-xl text-slate-800 mb-4">Bilangan Jam</h3>
+                    <select name="hours" id="hoursSelect" class="form-input w-full">
+                        <option value="">Pilih bilangan jam</option>
+                        <option value="1">1 jam (RM 25)</option>
+                        <option value="2">2 jam (RM 50)</option>
+                        <option value="3">3 jam (RM 75)</option>
+                        <option value="4">4 jam (RM 100)</option>
+                        <option value="5">5 jam (RM 125)</option>
+                        <option value="6">6 jam (RM 150)</option>
+                        <option value="7">7 jam (RM 175)</option>
+                        <option value="8">8 jam (RM 200)</option>
+                        <option value="9">9 jam (RM 225)</option>
+                        <option value="10">10 jam (RM 250)</option>
+                    </select>
+                `;
+                step1.querySelector('.space-y-8').insertBefore(hourlySection, document.querySelector('.bg-slate-50.rounded-lg.p-6.text-center'));
+            }
+        }
+        
+        // Service selection
+        const serviceOptions = document.querySelectorAll('.service-option');
+        serviceOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove selection from all options
+                serviceOptions.forEach(opt => opt.classList.remove('selected'));
+                // Add selection to clicked option
+                this.classList.add('selected');
+                
+                // Store selection
+                const serviceType = this.getAttribute('data-service');
+                AppState.bookingData.serviceType = serviceType;
+                saveBookingData();
+                
+                // Show/hide home size or hourly based on selection
+                const homeSizeSection = document.getElementById('homeSizeSection');
+                const hourlySection = document.getElementById('hourlySection');
+                
+                if (serviceType === 'hourly_cleaning') {
+                    homeSizeSection.classList.add('hidden');
+                    hourlySection.classList.remove('hidden');
+                    // Reset home size
+                    AppState.bookingData.homeSize = null;
+                } else {
+                    homeSizeSection.classList.remove('hidden');
+                    hourlySection.classList.add('hidden');
+                    // Reset hours
+                    AppState.bookingData.hours = null;
+                    const hoursSelect = document.getElementById('hoursSelect');
+                    if (hoursSelect) hoursSelect.value = '';
+                }
+                
+                // Update price
+                updatePriceEstimate();
+                checkStepCompletion();
+            });
+        });
+        
+        // Hourly selection
+        const hoursSelect = document.getElementById('hoursSelect');
+        if (hoursSelect) {
+            hoursSelect.addEventListener('change', function() {
+                AppState.bookingData.hours = this.value;
+                saveBookingData();
+                updatePriceEstimate();
+                checkStepCompletion();
+            });
+        }
+        
+        // Home size selection
+        const homeSizeOptions = document.querySelectorAll('.home-size-option');
+        homeSizeOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove selection from all options
+                homeSizeOptions.forEach(opt => opt.classList.remove('selected'));
+                // Add selection to clicked option
+                this.classList.add('selected');
+                
+                // Store selection
+                const homeSize = this.getAttribute('data-size');
+                AppState.bookingData.homeSize = homeSize;
+                saveBookingData();
+                
+                // Update price
+                updatePriceEstimate();
+                checkStepCompletion();
+            });
+        });
+        
+        // Set minimum date to today
+        const dateInput = document.querySelector('input[name="bookingDate"]');
+        if (dateInput) {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.min = today;
+        }
+        
+        // Form submission
+        const bookingForm = document.getElementById('bookingForm');
+        bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            submitBookingForm();
+        });
+    }
+    
+    function updatePriceEstimate() {
+        const serviceType = AppState.bookingData.serviceType;
+        const homeSize = AppState.bookingData.homeSize;
+        const hours = AppState.bookingData.hours;
+        
+        if (serviceType) {
+            const service = serviceData[serviceType];
+            let price = 0;
+            
+            if (serviceType === 'hourly_cleaning') {
+                if (hours) {
+                    price = service.basePrice * parseInt(hours);
+                }
+            } else {
+                if (homeSize) {
+                    price = Math.round(service.basePrice * service.priceMultiplier[homeSize]);
+                }
+            }
+            
+            const priceElement = document.getElementById('estimatedPrice');
+            if (priceElement && price > 0) {
+                priceElement.textContent = `RM ${price}`;
+                
+                // Animate price update
+                anime({
+                    targets: priceElement,
+                    scale: [1, 1.1, 1],
+                    duration: 300,
+                    easing: 'easeInOutQuad'
+                });
+                
+                // Store calculated price
+                AppState.bookingData.estimatedPrice = price;
+                saveBookingData();
+            }
+        }
+    }
+    
+    function checkStepCompletion() {
+        const nextButton = document.querySelector('.next-step');
+        const currentStep = AppState.currentStep;
+        
+        let isComplete = false;
+        
+        if (currentStep === 1) {
+            if (AppState.bookingData.serviceType === 'hourly_cleaning') {
+                isComplete = AppState.bookingData.serviceType && AppState.bookingData.hours;
+            } else {
+                isComplete = AppState.bookingData.serviceType && AppState.bookingData.homeSize;
+            }
+        } else if (currentStep === 2) {
+            const requiredFields = ['bookingDate', 'bookingTime', 'area', 'streetAddress', 'postcode'];
+            isComplete = requiredFields.every(field => AppState.bookingData[field]);
+        } else if (currentStep === 3) {
+            const requiredFields = ['fullName', 'phoneNumber'];
+            isComplete = requiredFields.every(field => AppState.bookingData[field]);
+        }
+        
+        if (nextButton) {
+            nextButton.disabled = !isComplete;
+            nextButton.classList.toggle('opacity-50', !isComplete);
+        }
+    }
+    
+    function updateBookingStep() {
+        // Hide all steps
+        document.querySelectorAll('.booking-step').forEach(step => {
+            step.classList.remove('active');
+        });
+        
+        // Show current step
+        const currentStepElement = document.getElementById(`step-${AppState.currentStep}`);
+        if (currentStepElement) {
+            currentStepElement.classList.add('active');
+            
+            // Animate step transition
+            anime({
+                targets: currentStepElement,
+                opacity: [0, 1],
+                translateX: [50, 0],
+                duration: 400,
+                easing: 'easeOutQuad'
+            });
+        }
+        
+        // Update step title
+        const stepTitles = {
+            1: translations[AppState.currentLanguage].step1,
+            2: translations[AppState.currentLanguage].step2,
+            3: translations[AppState.currentLanguage].step3
+        };
+        
+        const stepTitleElement = document.getElementById('step-title');
+        if (stepTitleElement) {
+            stepTitleElement.textContent = stepTitles[AppState.currentStep];
+        }
+        
+        // Update progress indicators
+        updateProgressIndicators();
+        
+        // Update navigation buttons
+        updateNavigationButtons();
+        
+        // Check step completion
+        checkStepCompletion();
+    }
+    
+    function updateProgressIndicators() {
+        for (let i = 1; i <= 3; i++) {
+            const indicator = document.getElementById(`step-${i}-indicator`);
+            if (indicator) {
+                if (i < AppState.currentStep) {
+                    indicator.className = 'step-indicator completed';
+                    indicator.innerHTML = '✓';
+                } else if (i === AppState.currentStep) {
+                    indicator.className = 'step-indicator active';
+                    indicator.textContent = i;
+                } else {
+                    indicator.className = 'step-indicator inactive';
+                    indicator.textContent = i;
+                }
+            }
+        }
+        
+        // Update progress bars
+        const progressBars = [
+            { id: 'progress-bar', progress: Math.min(100, (AppState.currentStep / 3) * 100) },
+            { id: 'progress-bar-2', progress: Math.max(0, ((AppState.currentStep - 1) / 2) * 100) }
+        ];
+        
+        progressBars.forEach(bar => {
+            const element = document.getElementById(bar.id);
+            if (element) {
+                anime({
+                    targets: element,
+                    width: `${bar.progress}%`,
+                    duration: 300,
+                    easing: 'easeOutQuad'
+                });
+            }
+        });
+    }
+    
+    function updateNavigationButtons() {
+        const prevButton = document.querySelector('.prev-step');
+        const nextButton = document.querySelector('.next-step');
+        const submitButton = document.querySelector('.submit-booking');
+        
+        // Show/hide previous button
+        if (prevButton) {
+            prevButton.style.display = AppState.currentStep > 1 ? 'block' : 'none';
+        }
+        
+        // Show/hide next/submit buttons
+        if (nextButton && submitButton) {
+            if (AppState.currentStep === 3) {
+                nextButton.style.display = 'none';
+                submitButton.style.display = 'block';
+                updateBookingSummary();
+            } else {
+                nextButton.style.display = 'block';
+                submitButton.style.display = 'none';
+            }
+        }
+    }
+    
+    function updateBookingSummary() {
+        const summaryElement = document.getElementById('bookingSummary');
+        if (!summaryElement || AppState.currentStep !== 3) return;
+        
+        const data = AppState.bookingData;
+        const service = serviceData[data.serviceType];
+        
+        let summary = [
+            `<strong>Perkhidmatan:</strong> ${service.name[AppState.currentLanguage]}`,
+            `<strong>Tarikh:</strong> ${data.bookingDate}`,
+            `<strong>Masa:</strong> ${data.bookingTime === 'morning' ? 'Pagi (9-12 AM)' : 'Petang (2-5 PM)'}`,
+            `<strong>Lokasi:</strong> ${data.streetAddress}, ${data.area}`,
+            `<strong>Anggaran Harga:</strong> RM ${data.estimatedPrice || 0}`,
+            `<strong>Nama:</strong> ${data.fullName}`,
+            `<strong>Telefon:</strong> +60${data.phoneNumber}`
+        ];
+        
+        if (data.serviceType === 'hourly_cleaning') {
+            summary.splice(1, 0, `<strong>Bilangan Jam:</strong> ${data.hours}`);
+        } else {
+            summary.splice(1, 0, `<strong>Saiz Rumah:</strong> ${data.homeSize}`);
+        }
+        
+        summaryElement.innerHTML = summary.map(item => `<div>${item}</div>`).join('');
+    }
+    
+    function submitBookingForm() {
+        // Validate final step
+        const requiredFields = ['fullName', 'phoneNumber'];
+        const isComplete = requiredFields.every(field => AppState.bookingData[field]);
+        
+        if (!isComplete) {
+            showNotification('Sila lengkapkan semua maklumat yang diperlukan', 'error');
+            return;
+        }
+        
+        // Submit booking
+        submitBooking();
+    }
+    
+    // Override the next step function for booking-specific logic
+    window.handleNextStep = function() {
+        if (AppState.currentStep < 3) {
+            // Validate current step before proceeding
+            if (validateCurrentStep()) {
+                AppState.currentStep++;
+                updateBookingStep();
+            }
+        }
+    };
+    
+    window.handlePrevStep = function() {
+        if (AppState.currentStep > 1) {
+            AppState.currentStep--;
+            updateBookingStep();
+        }
+    };
+    
+    function validateCurrentStep() {
+        const currentStep = AppState.currentStep;
+        let isValid = true;
+        
+        if (currentStep === 1) {
+            if (AppState.bookingData.serviceType === 'hourly_cleaning') {
+                isValid = AppState.bookingData.serviceType && AppState.bookingData.hours;
+                if (!isValid) {
+                    showNotification('Sila pilih jenis perkhidmatan dan bilangan jam', 'error');
+                }
+            } else {
+                isValid = AppState.bookingData.serviceType && AppState.bookingData.homeSize;
+                if (!isValid) {
+                    showNotification('Sila pilih jenis perkhidmatan dan saiz rumah', 'error');
+                }
+            }
+        } else if (currentStep === 2) {
+            const requiredFields = ['bookingDate', 'bookingTime', 'area', 'streetAddress', 'postcode'];
+            isValid = requiredFields.every(field => AppState.bookingData[field]);
+            if (!isValid) {
+                showNotification('Sila lengkapkan maklumat tarikh dan alamat', 'error');
+            }
+        }
+        
+        return isValid;
+    }
+    
+    async function submitBooking() {
+        try {
+            const bookingData = {
+                ...AppState.bookingData,
+                id: Date.now().toString(),
+                status: 'pending',
+                email: localStorage.getItem('userEmail') || AppState.bookingData.email
+            };
+            
+            const response = await fetch('/api/bookings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bookingData)
+            });
+            
+            if (response.ok) {
+                showNotification('Tempahan berjaya! Kami akan hubungi anda segera.', 'success');
+                // Clear local storage
+                localStorage.removeItem('bookingData');
+                localStorage.removeItem('currentStep');
+                // Redirect to confirmation page or user dashboard
+                setTimeout(() => {
+                    window.location.href = 'confirmation.html';
+                }, 2000);
+            } else {
+                throw new Error('Failed to submit booking');
+            }
+        } catch (error) {
+            console.error('Error submitting booking:', error);
+            showNotification('Ralat semasa menghantar tempahan. Sila cuba lagi.', 'error');
+        }
+    }
+    </script>
+</body>
+</html>
